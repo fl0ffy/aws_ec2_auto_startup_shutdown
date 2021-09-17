@@ -90,6 +90,7 @@ resource "aws_cloudwatch_event_rule" "StopEC2Instances_events_rule" {
 }
 
 
+# Tie scheduled event source (event rule) to lambda function
 resource "aws_cloudwatch_event_target" "StartEC2Instances_trigger" {
     rule = "${aws_cloudwatch_event_rule.StartEC2Instances_events_rule.name}"
     target_id = "StartEC2Instances"
@@ -97,6 +98,7 @@ resource "aws_cloudwatch_event_target" "StartEC2Instances_trigger" {
 }
 
 
+# Tie scheduled event source (event rule) to lambda function
 resource "aws_cloudwatch_event_target" "StopEC2Instances_trigger" {
     rule = "${aws_cloudwatch_event_rule.StopEC2Instances_events_rule.name}"
     target_id = "StopEC2Instances"
@@ -104,6 +106,7 @@ resource "aws_cloudwatch_event_target" "StopEC2Instances_trigger" {
 }
 
 
+# Grant cloudwatch_event_targert permission to invoke lambda function
 resource "aws_lambda_permission" "allow_cloudwatch_to_call_StartEC2Instances" {
     statement_id = "AllowExecutionFromCloudWatch"
     action = "lambda:InvokeFunction"
@@ -113,6 +116,7 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_StartEC2Instances" {
 }
 
 
+# Grant cloudwatch_event_targert permission to invoke lambda function
 resource "aws_lambda_permission" "allow_cloudwatch_to_call_StopEC2Instances" {
     statement_id = "AllowExecutionFromCloudWatch"
     action = "lambda:InvokeFunction"
