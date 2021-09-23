@@ -4,6 +4,11 @@
 ## About the Project
 This project is used to deploy lambda functions and associated components into AWS that automatically shutdown and startup EC2 instances, with the appropriate tags, on a given schedule using EventBridge (CloudWatch Events) as the trigger.
 
+### Use Cases
+- Cost savings
+- Rebooting causes instance to move backend hardware
+- Builds trust in infrastructure
+
 </br>
 
 ---
@@ -76,6 +81,17 @@ This project is used to deploy lambda functions and associated components into A
 | Lambda Permission | aws_lambda_permission | allow_cloudwatch_to_call_StopEC2Instances  |
 | Cloudwatch Event Target | aws_cloudwatch_event_target | StartEC2Instances_trigger  |
 | Cloudwatch Event Target | aws_cloudwatch_event_target | StopEC2Instances_trigger  |
+
+</br>
+
+---
+## Add Tags to EC2 Instances
+
+In the region with the deployed Lambda functions, will only the specific tags below will be acted upon.
+
+The tag `Auto-Startup` set to `True`  will start the ec2 instance at the specified time (default 0600 EDT).
+
+The tag `Auto-Shutdown` set to `True`  will stop the ec2 instance at the specified time (default 2200 EDT).
 
 </br>
 
