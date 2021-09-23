@@ -54,6 +54,11 @@ This project is used to deploy lambda functions and associated components into A
 | aws_config_profile  | default         | terraform apply -var="aws_config_profie=work_profile" |
 | aws_region          | us-east-1       | terraform apply -var="aws_region=us-west-2"           |
 
+### Refernce links
+[AWS Named Profiles](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)  
+[AWS Regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.Regions)
+
+
 </br>
 
 ---
