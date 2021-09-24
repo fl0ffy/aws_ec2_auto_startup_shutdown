@@ -97,8 +97,10 @@ The tag `Auto-Shutdown` set to `True`  will stop the ec2 instance at the specifi
 
 ---
 ## Todo
+- [ ] Add CloudWatch logging
+- [ ] Add S3 backend
+- [ ] Use dynamic blocks
 - [ ] Add a script to add tags to specifed ec2s
-- [ ] Add cloudwatch logging
 - [ ] Variablize:
   - [X] AWS CLI config profile
   - [X] AWS Region
