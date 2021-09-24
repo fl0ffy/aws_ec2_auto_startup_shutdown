@@ -1,10 +1,10 @@
 variable "aws_config_profile" {
-  type = string
+  type    = string
   default = "default"
 }
 
 
 variable "aws_region" {
-  type = string
+  type    = string
   default = "us-east-1"
 }
