@@ -1,86 +1,20 @@
+module "us-east-1" {
+  source = "./modules"
+  
+  iam_role_arn = aws_iam_role.iam_for_lambda.arn
 
-resource "aws_lambda_function" "StartEC2Instances" {
-  function_name    = "StartEC2Instances"
-  role             = aws_iam_role.iam_for_lambda.arn
-  filename         = data.archive_file.default.output_path
-  source_code_hash = data.archive_file.default.output_base64sha256
-  handler          = "auto-startup.lambda_handler"
-  runtime          = "python3.9"
-  timeout          = 300
+
+  providers = {
+    aws = aws
+   }
 }
 
-# Create EventBridge (CloudWatch Events) rule - StartEC2Instances
-resource "aws_cloudwatch_event_rule" "StartEC2Instances_events_rule" {
-  name                = "StartEC2Instances"
-  description         = "Starts EC2 instances every Morning at 0600 EDT (1000 GMT)."
-  schedule_expression = "cron(0 10 * * ? *)"
-}
+module "us-east-2" {
+  source = "./modules"
 
+  iam_role_arn = aws_iam_role.iam_for_lambda.arn
 
-# Tie scheduled event source (event rule) to lambda function
-resource "aws_cloudwatch_event_target" "StartEC2Instances_trigger" {
-  rule      = aws_cloudwatch_event_rule.StartEC2Instances_events_rule.name
-  target_id = "StartEC2Instances"
-  arn       = aws_lambda_function.StartEC2Instances.arn
-}
-
-
-# Grant cloudwatch_event_targert permission to invoke lambda function
-resource "aws_lambda_permission" "allow_cloudwatch_to_call_StartEC2Instances" {
-  statement_id  = "AllowExecutionFromCloudWatch"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.StartEC2Instances.function_name
-  principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.StartEC2Instances_events_rule.arn
-}
-
-
-resource "aws_cloudwatch_log_group" "StartEC2Instances_log_group" {
-  name              = "/aws/lambda/StartEC2Instances"
-  retention_in_days = 14
-}
-
-
-# --------------------- StopEC2Instances setup ----------------------
-# Create StopEC2Instances lambda function
-resource "aws_lambda_function" "StopEC2Instances" {
-  function_name    = "StopEC2Instances"
-  role             = aws_iam_role.iam_for_lambda.arn
-  filename         = data.archive_file.default.output_path
-  source_code_hash = data.archive_file.default.output_base64sha256
-  handler          = "auto-shutdown.lambda_handler"
-  runtime          = "python3.9"
-  timeout          = 300
-}
-
-
-# Create EventBridge (CloudWatch Events) rule - StopEC2Instances
-resource "aws_cloudwatch_event_rule" "StopEC2Instances_events_rule" {
-  name                = "StopEC2Instances"
-  description         = "Stops EC2 instances every night at 2300 EDT (0300 GMT)."
-  schedule_expression = "cron(0 3 * * ? *)"
-}
-
-
-# Tie scheduled event source (event rule) to lambda function
-resource "aws_cloudwatch_event_target" "StopEC2Instances_trigger" {
-  rule      = aws_cloudwatch_event_rule.StopEC2Instances_events_rule.name
-  target_id = "StopEC2Instances"
-  arn       = aws_lambda_function.StopEC2Instances.arn
-}
-
-
-# Grant cloudwatch_event_targert permission to invoke lambda function
-resource "aws_lambda_permission" "allow_cloudwatch_to_call_StopEC2Instances" {
-  statement_id  = "AllowExecutionFromCloudWatch"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.StopEC2Instances.function_name
-  principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.StopEC2Instances_events_rule.arn
-}
-
-
-resource "aws_cloudwatch_log_group" "StopEC2Instances_log_group" {
-  name              = "/aws/lambda/StopEC2Instances"
-  retention_in_days = 14
+  providers = {
+    aws = aws.us-east-2
+   }
 }
