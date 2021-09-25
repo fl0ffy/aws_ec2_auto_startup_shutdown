@@ -1,6 +1,5 @@
-# Creating IAM role so that Lambda service to assume the role and access other AWS services. 
-resource "aws_iam_role" "lambda_role" {
-  name               = "iam_role_lambda_function"
+resource "aws_iam_role" "iam_for_lambda" {
+  name               = "iam_for_lambda"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -17,9 +16,8 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 
-# IAM policy for starting ec2
 resource "aws_iam_policy" "lambda_ec2" {
-  name        = "iam_policy_lamdba_ec2_function"
+  name        = "lamdba_ec2"
   path        = "/"
   description = "IAM policy for doing EC2 things from lambda"
   policy      = <<EOF
@@ -61,20 +59,18 @@ EOF
 }
 
 
-# Policy Attachment on the role
-resource "aws_iam_role_policy_attachment" "policy_attach" {
-  role       = aws_iam_role.lambda_role.name
+resource "aws_iam_role_policy_attachment" "lambda_attach_ec2" {
+  role       = aws_iam_role.iam_for_lambda.name
   policy_arn = aws_iam_policy.lambda_ec2.arn
 }
 
 
-resource "aws_iam_role_policy_attachment" "lambda_logs" {
-  role       = aws_iam_role.lambda_role.name
+resource "aws_iam_role_policy_attachment" "lambda_attach_logs" {
+  role       = aws_iam_role.iam_for_lambda.name
   policy_arn = aws_iam_policy.lambda_logging.arn
 }
 
 
-# Generates an archive from content, a file, or a directory of files.
 data "archive_file" "default" {
   type        = "zip"
   source_dir  = "${path.module}/files"
@@ -167,4 +163,3 @@ resource "aws_cloudwatch_log_group" "StopEC2Instances_log_group" {
   name              = "/aws/lambda/StopEC2Instances"
   retention_in_days = 14
 }
-
