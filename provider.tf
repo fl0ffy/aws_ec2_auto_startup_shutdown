@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket  = "mybucket-081726345"
+    bucket  = "terraform-states-081726345"
     key     = "ec2_auto_startup_shutdown/terraform.tfstate"
     region  = "us-east-1"
     profile = "playground"

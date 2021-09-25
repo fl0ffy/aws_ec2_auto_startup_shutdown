@@ -1,92 +1,12 @@
-resource "aws_iam_role" "iam_for_lambda" {
-  name               = "iam_for_lambda"
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [{
-    "Action": "sts:AssumeRole",
-    "Principal": {
-      "Service": "lambda.amazonaws.com"
-      },
-    "Effect": "Allow",
-    "Sid": ""
-  }]
-}
-  EOF
-}
 
-
-resource "aws_iam_policy" "lambda_ec2" {
-  name        = "lamdba_ec2"
-  path        = "/"
-  description = "IAM policy for doing EC2 things from lambda"
-  policy      = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": "ec2:*",
-            "Effect": "Allow",
-            "Resource": "*"
-        }
-    ]
-}
-  EOF
-}
-
-
-resource "aws_iam_policy" "lambda_logging" {
-  name        = "lambda_logging"
-  path        = "/"
-  description = "IAM policy for logging from a lambda"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "arn:aws:logs:*:*:*",
-      "Effect": "Allow"
-    }
-  ]
-}
-EOF
-}
-
-
-resource "aws_iam_role_policy_attachment" "lambda_attach_ec2" {
-  role       = aws_iam_role.iam_for_lambda.name
-  policy_arn = aws_iam_policy.lambda_ec2.arn
-}
-
-
-resource "aws_iam_role_policy_attachment" "lambda_attach_logs" {
-  role       = aws_iam_role.iam_for_lambda.name
-  policy_arn = aws_iam_policy.lambda_logging.arn
-}
-
-
-data "archive_file" "default" {
-  type        = "zip"
-  source_dir  = "${path.module}/files"
-  output_path = "${path.module}/myzip/python.zip"
-}
-
-
-# --------------------- StartEC2Instances setup ----------------------
-# Create StartEC2Instances lambda function
 resource "aws_lambda_function" "StartEC2Instances" {
-  filename      = "${path.module}/myzip/python.zip"
-  function_name = "StartEC2Instances"
-  role          = aws_iam_role.lambda_role.arn
-  handler       = "auto-startup.lambda_handler"
-  runtime       = "python3.9"
-  depends_on    = [aws_iam_role_policy_attachment.policy_attach]
+  function_name    = "StartEC2Instances"
+  role             = aws_iam_role.iam_for_lambda.arn
+  filename         = data.archive_file.default.output_path
+  source_code_hash = data.archive_file.default.output_base64sha256
+  handler          = "auto-startup.lambda_handler"
+  runtime          = "python3.9"
+  timeout          = 300
 }
 
 # Create EventBridge (CloudWatch Events) rule - StartEC2Instances
@@ -124,12 +44,13 @@ resource "aws_cloudwatch_log_group" "StartEC2Instances_log_group" {
 # --------------------- StopEC2Instances setup ----------------------
 # Create StopEC2Instances lambda function
 resource "aws_lambda_function" "StopEC2Instances" {
-  filename      = "${path.module}/myzip/python.zip"
-  function_name = "StopEC2Instances"
-  role          = aws_iam_role.lambda_role.arn
-  handler       = "auto-shutdown.lambda_handler"
-  runtime       = "python3.9"
-  depends_on    = [aws_iam_role_policy_attachment.policy_attach]
+  function_name    = "StopEC2Instances"
+  role             = aws_iam_role.iam_for_lambda.arn
+  filename         = data.archive_file.default.output_path
+  source_code_hash = data.archive_file.default.output_base64sha256
+  handler          = "auto-shutdown.lambda_handler"
+  runtime          = "python3.9"
+  timeout          = 300
 }
 
 
