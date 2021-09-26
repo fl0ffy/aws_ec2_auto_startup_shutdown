@@ -19,8 +19,9 @@ provider "aws" {
   region  = "us-east-1"
 }
 
-provider "aws" {
-  alias   = "us-east-2"
-  profile = var.aws_config_profile
-  region  = "us-east-2"
-}
+
+# provider "aws" {
+#   alias   = "us-east-2"
+#   profile = var.aws_config_profile
+#   region  = "us-east-2"
+# }

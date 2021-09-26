@@ -4,8 +4,8 @@
 resource "aws_lambda_function" "StopEC2Instances" {
   function_name    = "StopEC2Instances"
   role             = var.iam_role_arn
-  filename         = data.archive_file.default.output_path
-  source_code_hash = data.archive_file.default.output_base64sha256
+  filename         = var.data_path
+  source_code_hash = var.data_hash
   handler          = "auto-shutdown.lambda_handler"
   runtime          = "python3.9"
   timeout          = 300
