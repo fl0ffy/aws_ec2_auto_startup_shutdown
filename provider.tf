@@ -5,12 +5,12 @@ terraform {
       version = "~> 3.0"
     }
   }
-  backend "s3" {
-    bucket  = "terraform-states-081726345"
-    key     = "ec2_auto_startup_shutdown/terraform.tfstate"
-    region  = "us-east-1"
-    profile = "playground"
-  }
+  # backend "s3" {
+  #   bucket  = "terraform-states-081726345"
+  #   key     = "ec2_auto_startup_shutdown/terraform.tfstate"
+  #   region  = "us-east-1"
+  #   profile = "playground"
+  # }
 }
 
 
