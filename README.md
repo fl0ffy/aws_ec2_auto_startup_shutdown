@@ -16,7 +16,7 @@ This project is used to deploy lambda functions and associated components into A
 - Git
 - Terraform (tested v1.0.7)
 - AWS CLI configured with IAM credentials
-  - Profiles can be used (see variables)
+	- Profiles can be used (see variables)
 
 </br>  
 
@@ -24,30 +24,30 @@ This project is used to deploy lambda functions and associated components into A
 ## Geting Started
 
 1. Clone the repo to location terraform will be run
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
+	 ```sh
+	 git clone https://github.com/your_username_/Project-Name.git
+	 ```
 
 1. Change directory into project
-   ```sh
-   cd Project-Name
-   ```
+	 ```sh
+	 cd Project-Name
+	 ```
 
 2. Initiate terraform 
-   ```sh
-   terraform init
-   ```
+	 ```sh
+	 terraform init
+	 ```
 
 3. Run terrafrom plan
-   ```sh
-   terraform plan
-   ```
+	 ```sh
+	 terraform plan
+	 ```
 
 4. Run terraform apply to make changes
-   ```sh
-   terraform apply
-   ``` 
-   enter yes when prompted
+	 ```sh
+	 terraform apply
+	 ``` 
+	 enter yes when prompted
 
 </br>
 
@@ -98,16 +98,17 @@ The tag `Auto-Shutdown` set to `True`  will stop the ec2 instance at the specifi
 ---
 ## Todo
 - [X] Add CloudWatch logging
-- [ ] Add S3 backend
+- [X] Modularize to support multi-region deployments
+- [X] Add S3 backend
 - [ ] Use dynamic blocks
 - [ ] Add a script to add tags to specifed ec2s
 - [ ] Variablize:
-  - [X] AWS CLI config profile
-  - [X] AWS Region
-  - [ ] Startup_time (default 2200 EDT)
-  - [ ] Shutdown_time (default 0600 EDT)
-  - [ ] Startup_tag (default 'Auto-Startup')
-  - [ ] Shutdown_tag (default 'Auto-Shutdown')
+	- [X] AWS CLI config profile
+	- [X] AWS Region
+	- [ ] Startup_time (default 2200 EDT)
+	- [ ] Shutdown_time (default 0600 EDT)
+	- [ ] Startup_tag (default 'Auto-Startup')
+	- [ ] Shutdown_tag (default 'Auto-Shutdown')
 - [ ] Optional: create script to add tags to all instances
 
 </br>

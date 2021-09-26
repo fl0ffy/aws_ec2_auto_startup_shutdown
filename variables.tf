@@ -5,6 +5,7 @@ variable "aws_config_profile" {
 
 
 variable "aws_region" {
-  type    = string
-  default = "us-east-1"
+  type        = string
+  description = "This is the region we use in AWS"
+  default     = "us-east-1"
 }
