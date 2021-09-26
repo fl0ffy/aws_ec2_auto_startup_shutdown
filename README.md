@@ -72,15 +72,13 @@ This project is used to deploy lambda functions and associated components into A
 |---|---|---|
 | IAM policy | aws_iam_policy  | lambda_ec2  |
 | IAM Role   | aws_iam_role    | lambda_role |
-| IAM Role/Policy Attach| aws_iam_role_policy_attachment | policy_attach |
 | CloudWatch Event Rule  | aws_cloudwatch_event_rule | StartEC2Instances_event_rule  |
 | CloudWatch Event Rule  | aws_cloudwatch_event_rule | StopEC2Instances_event_rule  |
 | Lambda Function | aws_lambda_function | StartEC2Instances  |
 | Lambda Function | aws_lambda_function | StopEC2Instances  |
-| Lambda Permission | aws_lambda_permission | allow_cloudwatch_to_call_StartEC2Instances  |
-| Lambda Permission | aws_lambda_permission | allow_cloudwatch_to_call_StopEC2Instances  |
-| Cloudwatch Event Target | aws_cloudwatch_event_target | StartEC2Instances_trigger  |
-| Cloudwatch Event Target | aws_cloudwatch_event_target | StopEC2Instances_trigger  |
+| Cloudwatch Log Group | aws_cloudwatch_log_group | StopEC2Instances_log_group |
+| Cloudwatch Log Group | aws_cloudwatch_log_group | StartEC2Instances_log_group |
+| AWS EC2 Instance (for testing) | aws_instance | test |
 
 </br>
 

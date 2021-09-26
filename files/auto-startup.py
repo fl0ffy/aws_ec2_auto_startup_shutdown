@@ -2,9 +2,6 @@ import boto3
 import sys
 
 
-ec2_client = boto3.client('ec2')
-
-
 def get_tagged_instances(ec2_client, tagkey: str, tagvalue: str) -> list:
     response = ec2_client.describe_instances(
         Filters=[
@@ -34,6 +31,7 @@ def start_instances(ec2_client, instance_ids: list) -> None:
 
 
 def lambda_handler(event, context):
+    ec2_client = boto3.client('ec2')
     instance_ids = get_tagged_instances(ec2_client, 'Auto-Startup', 'True')
     
     if len(instance_ids) != 0:
