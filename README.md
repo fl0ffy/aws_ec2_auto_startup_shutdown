@@ -85,11 +85,18 @@ This project is used to deploy lambda functions and associated components into A
 ---
 ## Add Tags to EC2 Instances
 
-In the region with the deployed Lambda functions, will only the specific tags below will be acted upon.
+The Lambda functions will only act on the specific tags below within the regions in which they are deployed.
 
 The tag `Auto-Startup` set to `True`  will start the ec2 instance at the specified time (default 0600 EDT).
 
 The tag `Auto-Shutdown` set to `True`  will stop the ec2 instance at the specified time (default 2200 EDT).
+
+</br>
+
+---
+## About the Scripts in the Lambda Functions
+
+Located in the `files/` directory are two python scripts that are bundled together as a zip archive and given to the lamnbda functions to execute.  Both scripts work similarly by first querying EC2 instance ids using the tag as a filter and then either starting or stopping those returned instances by ID.
 
 </br>
 
